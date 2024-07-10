@@ -1,6 +1,7 @@
 import os
 from multiprocessing import cpu_count
 from multiprocessing.pool import ThreadPool
+
 from loguru import logger
 from requests.exceptions import RequestException
 
@@ -17,7 +18,9 @@ def sync(synchronizer: Synchronizer) -> None:
     try:
         synchronizer.get_info().json()["_embedded"]["items"]
     except RequestException:
-        logger.error("Can't get remote directory info from server. Synchronisation aborted.")
+        logger.error(
+            "Can't get remote directory info from server. Synchronisation aborted."
+        )
         return
 
     remote_data = {"files": {}, "dirs": []}
